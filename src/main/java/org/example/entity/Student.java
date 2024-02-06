@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "studentss")
 @Getter @Setter
-@ToString
 @NoArgsConstructor
 @SequenceGenerator(name = "base_id_gen",
         sequenceName = "students_seq",
@@ -31,5 +30,14 @@ public class Student extends BaseEntity {
         this.name = name;
         this.email = email;
         this.enrollement_date = enrollement_date;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", enrollement_date=" + enrollement_date +
+                '}';
     }
 }

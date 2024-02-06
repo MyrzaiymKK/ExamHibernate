@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "coursess")
 @Getter @Setter
-@ToString
 @NoArgsConstructor
 @SequenceGenerator(name = "base_id_gen",
         sequenceName = "courses_seq",
@@ -29,5 +28,12 @@ public class Course extends BaseEntity {
     public Course(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return " Courses:  " +
+                "name='" + name + '\'' +
+                ", description='" + description ;
     }
 }

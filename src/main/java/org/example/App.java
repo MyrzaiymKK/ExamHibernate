@@ -42,9 +42,9 @@ public class App
                 case 3 -> System.out.println(studentService.getAllStudents());
                 case 4 -> studentService.updateStudent(1L,new Student("Ademi","adem@gmail.com", LocalDate.of(2002,11,01)));
                 case 5 -> studentService.deleteStud(1L);
-                case 6 -> studentService.getStudentCourses(1L);
+                case 6 -> System.out.println(studentService.getStudentCourses(1L));
                 case 7 -> System.out.println(studentService.getStudentBuEntollment(LocalDate.of(2003, 10, 03)));
-                case 8 -> courseService.saveCourse(new Course("Java","Spting"));
+                case 8 -> courseService.saveCourse(new Course("Java Spring","Sppting"));
                 case 9 -> System.out.println(courseService.getById(1L));
                 case 10 -> System.out.println(courseService.getAllCourses());
                 case 11 -> courseService.updateCourse(1L,new Course("JS","CCS"));

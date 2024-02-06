@@ -8,7 +8,9 @@ import org.example.entity.Course;
 import org.example.entity.Student;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CourseDaoImpl implements CourseDao {
       EntityManagerFactory entityManagerFactory = Hibernateconfig.getEntity();
@@ -94,19 +96,22 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
-    public List<Course> getCourseStudents(Long courseId) {
+    public Map<Course, List<Student>> getCourseStudents(Long courseId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<Course> courses = new ArrayList<>();
+        Map<Course, List<Student>>  map = new HashMap<>();
         try {
             entityManager.getTransaction().begin();
-         courses =   entityManager.createQuery("select c from Course c inner join Student s on c.id = s.course.size",Course.class)
-                    .getResultList();
+         Course  findCourse =  entityManager.createQuery("select c from Course c where c.id =:addId",Course.class)
+                    .setParameter("addId",courseId)
+                    .getSingleResult();
+         map.put(findCourse,findCourse.getStudent());
          entityManager.getTransaction().commit();
-        }catch (Exception e) {
+        }catch (Exception e){
             System.out.println(e.getMessage());
         }
-        return courses;
-        }
+        return map;
+    }
+
 
     @Override
     public String assignStudentToCourse(Long studentId, Long courseId) {
@@ -117,8 +122,8 @@ public class CourseDaoImpl implements CourseDao {
             Student student = entityManager.find(Student.class,studentId);
             Course course = entityManager.find(Course.class,courseId);
             course.getStudent().add(student);
+            student.getCourse().add(course);
 
-            entityManager.merge(course);
             entityManager.getTransaction().commit();
             entityManager.close();
         }catch (Exception e ) {

@@ -2,11 +2,13 @@ package org.example.service.impll;
 
 import org.example.dao.StudentDao;
 import org.example.dao.impl.StudentDaoImpl;
+import org.example.entity.Course;
 import org.example.entity.Student;
 import org.example.service.StudentService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class StudentServiceImpl implements StudentService {
     StudentDao studentDao = new StudentDaoImpl();
@@ -36,7 +38,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudentCourses(Long studentId) {
+    public Map<Student, List<Course>> getStudentCourses(Long studentId) {
         return studentDao.getStudentCourses(studentId);
     }
 

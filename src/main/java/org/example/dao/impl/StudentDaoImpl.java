@@ -4,11 +4,14 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.example.config.Hibernateconfig;
 import org.example.dao.StudentDao;
+import org.example.entity.Course;
 import org.example.entity.Student;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StudentDaoImpl implements StudentDao {
     EntityManagerFactory entityManagerFactory = Hibernateconfig.getEntity();
@@ -96,18 +99,20 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public List<Student> getStudentCourses(Long studentId) {
+    public Map<Student, List<Course>> getStudentCourses(Long studentId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Map<Student, List<Course>> map = new HashMap<>();
         try {
             entityManager.getTransaction().begin();
-            entityManager.createQuery("select s from Student s inner join Course c on s.id = c.student.size",Student.class)
-                    .getResultList();
+            Student findStudent = entityManager.createQuery("select s from Student s where s.id =:studentId", Student.class)
+                    .setParameter("studentId", studentId)
+                    .getSingleResult();
+            map.put(findStudent, findStudent.getCourse());
             entityManager.getTransaction().commit();
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-
-        return null;
+        return map;
     }
 
     @Override

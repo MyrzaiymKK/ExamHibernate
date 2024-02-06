@@ -3,9 +3,11 @@ package org.example.service.impll;
 import org.example.dao.CourseDao;
 import org.example.dao.impl.CourseDaoImpl;
 import org.example.entity.Course;
+import org.example.entity.Student;
 import org.example.service.CourseService;
 
 import java.util.List;
+import java.util.Map;
 
 public class CourseServiceImpl implements CourseService {
     CourseDao courseDao = new CourseDaoImpl();
@@ -35,9 +37,10 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getCourseStudents(Long courseId) {
+    public Map<Course, List<Student>> getCourseStudents(Long courseId) {
         return courseDao.getCourseStudents(courseId);
     }
+
 
     @Override
     public String assignStudentToCourse(Long studentId, Long courseId) {
